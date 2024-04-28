@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="swatch.css">
+    <title> Watch </title>
+</head>
+<body>
+    <div class="container">
+        <div class="timer-display">
+            00 : 00 : 00 :000
+        </div>
+        
+        <div class="buttons">
+            <button id="start-timer"> Start </button>
+            <button id="pause-timer"> Pause </button>
+            <button id="reset-timer"> Reset </button>
+        </div>
+     </div>
+    
+
+     <script>
+        let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];  // its contains it initializes of four variables i.e min.sec,hrs & millisec //
+        let timeRef = document.querySelector(".timer-display"); 
+        let int = null;
+
+        // when user clicks on start timer button then displayTimer() is called repetedly at interval of 10ms //
+        document.getElementById("start-timer").addEventListener("click", 
+        () => {
+            if(int !==null){
+                clearInterval(int);
+            }
+            int = setInterval(displayTimer, 10);
+        });
+        
+
+         // when user clicks on pause timer button then the interval is cleard and it pauses the time //
+        document.getElementById("pause-timer").addEventListener("click", 
+        () => {
+            clearInterval(int);
+        });
+
+        // when user clicks on reset timer button then the interval is cleard and all the timer variables are resets to zero //
+        document.getElementById("reset-timer").addEventListener("click", 
+        () =>{
+            clearInterval(int);
+            [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+            timeRef.innerHTML = " 00 : 00 : 00: 000";
+        });
+
+        // this fumction increments the timer values i.e sec,hrs,min,millisec //
+        function displayTimer(){
+            milliseconds += 10;
+            if(milliseconds == 1000){
+                milliseconds = 0;
+                seconds++;
+                if(seconds == 60){
+                    seconds = 0;
+                    minutes++;
+                    if(minutes == 60){
+                        minutes =0;
+                        hours++;
+                    }
+                }
+
+            }
+
+            let h = hours < 10 ? "0" + hours : hours;
+            let m = minutes < 10 ? "0" + minutes : minutes;
+            let s = seconds < 10 ? "0" + seconds : seconds;
+            let ms =
+                   milliseconds <  10
+                   ? "00" + milliseconds
+                   : milliseconds < 100
+                   ? "0" + milliseconds
+                   : milliseconds;
+
+            timeRef.innerHTML = `${h} : ${m} : ${s} : ${ms}`; //  we should use backticks (`) instead of single quotes ('), //
+            
+
+        }
+     </script>
+
+</body> 
+</html>
